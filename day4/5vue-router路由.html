@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-router路由</title>
+    <script src="../vue.js"></script>
+    <script src="../vue-router.js"></script>
+    <style>
+        .router-link-active,.myactive{
+            color: yellow;
+            /*font-weight: 80;*/
+            /*font-style: italic;*/
+            /*font-size: 32px;*/
+            text-decoration: underline;
+            background-color: antiquewhite;
+
+        }
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform:translateX(140px);
+        }
+
+        .v-enter-active,
+        .v-leave-active{
+            transition:all 0.5s ease;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+<!--    <a href="#/login">登录</a>-->
+<!--    <a href="#/register">注册</a>-->
+
+    <router-link to="/login?id=123&name=baobao" tag="span" style="text-decoration: none">登录</router-link>
+    <router-link to="/register/123/baobaohui" style="text-decoration: none">注册</router-link>
+    <router-link to="/account" style="text-decoration: none">account</router-link>
+<!-- 这是vue-router 提供的元素，专门用来当作占位符的，
+将来路由规则匹配到的组件，就会展示到这个 router-view中去 -->
+    <transition mode="out-in">
+        <router-view></router-view>
+    </transition>
+</div>
+<template id="tmp1">
+    <div>
+        <h3>account组件</h3>
+
+        <router-link to="/account/login2">子登录</router-link>
+        <router-link to="/account/register2">子注册</router-link>
+        <transition mode="out-in">
+            <router-view></router-view>
+        </transition>
+    </div>
+</template>
+<script>
+    //组件模板对象
+    var login ={
+        template:'<h3>登录组件--{{$route.query.id}} -- {{$route.query.name}}</h3>',
+        data(){
+            return {
+                msg:'123'
+            }
+        },
+        created(){
+            console.log(this.$route.query.id)
+        }
+
+    };
+    var register ={
+        template:'<h3>注册组件--{{$route.params.id}}--{{$route.params.name}}</h3>',
+        data(){
+            return {
+                msg:'123'
+            }
+        },
+        created(){
+            console.log(this.$route.params.id)
+        }
+    };
+
+    var account ={
+        template:'#tmp1'
+    };
+    var login2 ={
+        template:'<h3>子登录组件</h3>',
+
+    };
+    var register2 ={
+        template:'<h3>子注册组件</h3>',
+    };
+
+    // 创建一个路有对象，当导入 vue-router包之后，在window全局对象中，
+    //      就有了一个路由的构造函数，叫做 VueRouter
+    // 在new路由对象的时候，可以为构造函数，传递一个配置对象
+    var routerObj = new VueRouter({
+        // route 这个配置对象中的 route 表示 路由匹配规则 的意思
+        routes:[//路由匹配规则，这个规则对象有两个属性
+            // 属性1 path,表示监听
+            // 属性2 是component，表示如果路由是前面匹配到的path，则表示component属性对应
+            //      注意：component的属性值，必须是一个组件的模板对象，不能是组件的引用名称
+            {path:'/',redirect:''},// 设置默认路由，这里的redirect 和 Node中的redirect完全不同
+            {path:'/login',component:login},
+            {path:'/register/:id/:name',component:register},
+            {
+                path:'/account',
+                component:account,
+                children:[
+                    {path:'login2',component:login2},
+                    {path:'register2',component:register2}
+                ]
+            }
+        ],
+        linkActiveClass:'myactive'
+    });
+
+    var vm =new Vue({
+        el:'#app',
+        data:{},
+        methods:{},
+        router:routerObj    //将路由规则对象，注册到vm实例上，用来监听URL地址的变化，然后展示对应的组件
+    });
+
+
+</script>
+</body>
+</html>

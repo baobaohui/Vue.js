@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-if_v-show</title>
+    <script src="../vue.js"></script>
+
+
+</head>
+<body>
+<div id="app">
+    <input type="button" value="隐藏" @click="toggle">
+
+<!--    v-if 有较高的切换性能消耗-->
+<!--如果元素涉及到频繁的切换，最好不要使用 v-if-->
+    <h3 v-if="flag">这是用v-if控制的元素</h3>
+
+    <!--    v-show 有较高的初始化渲染消耗-->
+    <h3 v-show="!flag">这是用v-show控制的元素</h3>
+
+
+</div>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            flag:true
+        },
+        methods: {
+            toggle(){
+                this.flag = !this.flag
+            }
+
+
+        }
+    });
+
+</script>
+</body>
+</html>

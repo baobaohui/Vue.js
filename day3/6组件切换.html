@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件切换</title>
+    <script src="../vue.js"></script>
+    <style>
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform:translateX(150px);
+        }
+
+        .v-enter-active,
+        .v-leave-active{
+            transition:all 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <a href="" @click.prevent="flag=true">登录</a>
+    <a href="" @click.prevent="flag=false">注册</a>
+
+    <login v-if="flag"></login>
+    <register v-else="flag"></register>
+
+</div>
+<hr>
+<div id="app2">
+    <a href="" @click.prevent="comName='login'">登录</a>
+    <a href="" @click.prevent="comName='register'">注册</a>
+
+<!-- Vue 提供了component，来展示对应名称的组件
+   component 是一个占位符， :is 属性可以用来指定要展示的组件的名称 -->
+<!--通过mode属性，设置组件切换时候的模式-->
+    <transition mode="out-in">
+        <component :is="comName"></component>
+    </transition>
+
+<!-- 当前总共学习了几个 Vue提供的标签了
+ component,remplate,transition,transitionGroup
+ -->
+</div>
+<script>
+    Vue.component('login',{
+        template:'<h3>登录组件</h3>'
+    });
+    Vue.component('register',{
+        template:'<h3>注册组件</h3>'
+    });
+
+
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            flag:false
+        },
+        methods:{
+
+        }
+    });
+    var vm = new Vue({
+        el:'#app2',
+        data:{
+            comName:'' // 当前component 中的 ：is 绑定的组件的名称
+        },
+        methods:{
+
+        }
+    })
+</script>
+</body>
+</html>

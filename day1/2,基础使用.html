@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test2</title>
+    <script src="../vue.js"></script>
+    <style>
+
+<!--        网速过慢未刷新出来的时候进行提前隐藏，解决差值表达式闪烁的问题-->
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+<!--    解决差值表达式闪烁问题-->
+    <p v-cloak>{{msg}}</p>
+    <p v-text="msg"></p>
+<!--    没有差值表达式闪烁问题，v-text会覆盖元素中原本的内容，但是差值表达式只会替换
+自己的这个占位符，不会把整个元素的内容清空
+-->
+
+    <div>{{msg2}}</div>
+    <div v-text="msg"></div>
+    <div v-html="msg2">baobaohiu</div>
+
+<!--    v-bind :是vue中，提供的用于绑定属性的指令-->
+    <input type="button" value="按钮" v-bind:title="mytitle+'额外'">
+
+<!--    v-bind简写为 :要表达的属性-->
+    <input type="button" value="hello" :title="msg" id="btn1">
+    <input type="button" value="hello" :title="msg" v-on:click="show">
+    <input type="button" value="hello" :title="msg" @click="show">
+    <input type="button" value="hello" :title="msg" v-on:mouseover="show2">
+
+</div>
+
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            msg:'123',
+            msg2:'<h2>使用v-html完成html语言的替换使用</h2>',
+            mytitle:'这是一个自己定义的title'
+        },
+        //定义当前vue中所有的实例方法
+        methods:{
+            show:function () {
+                alert('hello2')
+            },
+            show2:function () {
+                alert('鼠标滑过我了')
+            }
+
+
+        }
+
+    });
+
+/* 为id 添加点击事件*/
+    document.getElementById('btn1').onclick=function () {
+        alert('hello')
+    }
+
+</script>
+</body>
+</html>

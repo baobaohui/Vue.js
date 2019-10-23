@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件</title>
+    <script src="../vue.js"></script>
+    <style>
+
+    </style>
+
+</head>
+<body>
+<div id="app">
+    <h3>注意： 不论是哪种方式创建出来的组件，组件的template属性指向的模板内容，必须有且只有一个根元素</h3>
+<h5>如果要使用组件，直接把组件的名称，以HTML 标签的形式，引入到页面中 即可 </h5>
+    <mycom1></mycom1>
+    <mycom2></mycom2>
+    <mycom3></mycom3>
+    <mycom4></mycom4>
+
+</div>
+<!--第四种方式 在被控制的#app 外面，使用template元素，定义组件的HTML木板结构-->
+<template id="tmp1">
+    <div>
+        <h3>第四种方式：这是通过template元素，在外部定一个的组件结构，这个方式，有代码的之能提示和高亮</h3>
+        <h4>好用，不错！</h4>
+    </div>
+</template>
+<div id="app2">
+
+    <login></login>
+</div>
+
+<template id="tmp2">
+    <h3>第五种方式：这是私有的组件</h3>
+</template>
+<script>
+<!--注意： 不论是哪种方式创建出来的组件，组件的template属性指向的模板内容，必须有且只有一个根元素-->
+    // 使用Vue.extend 来创建全局的Vue组件
+    var com1 = Vue.extend({
+       template:'<h3> 第一种方式：这是使用Vue.textend 创建的组件</h3>' // 通过template属性，指定了组件要展示的HTML结构
+    });
+    //驼峰命名的话 在调用的时候就需要使用 - 来连接    <my-com1></my-com1>
+    // Vue.component('myCom1',com1)
+    Vue.component('mycom1',com1);
+
+    //第二种组件使用方式
+    Vue.component('mycom2',Vue.extend({
+        template:'<h3>第二种方式：这是使用Vue.textend 创建的组件</h3>'
+    }));
+    //第三种方式
+    Vue.component('mycom3',{
+        template:'<h3>第三种方式：这是使用Vue.textend 创建的组件</h3>'
+    });
+
+    //第四种方式
+    Vue.component('mycom4',{
+        template:'#tmp1'
+    });
+    var vm = new Vue({
+        el:'#app',
+        data:{
+
+        },
+        mehtods:{
+
+        }
+    });
+    var vm2 = new Vue({
+        el:'#app2',
+        data:{
+
+        },
+        methods:{
+
+        },
+        filters:{},
+        directives:{},
+        components:{
+            // 定义实例内部私有组件
+            login:{
+                template:'#tmp2'
+            }
+
+        },
+        // 生命周期函数
+        beforeCreate(){},
+        created(){},
+        beforeMount(){},
+        mounted(){},
+        beforeUpdate() {},
+        updated(){},
+        beforeDestroy(){},
+        destroyed(){},
+
+    })
+</script>
+</body>
+</html>

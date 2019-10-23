@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画</title>
+    <script src="../vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue-resource/1.3.4/vue-resource.common.js"></script>
+    <link rel="stylesheet" href="../bootstrap.css">
+    <link rel="stylesheet" href="../bootstrap-min.css">
+    <link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="../Animate.css">
+    <style>
+        .*{
+            margin:0;
+            padding:0;
+        }
+        /*v-enter 这是一个时间点，是进入之前，元素的起始状态，此时还没有开始进入*/
+        /*v-leave-to 也是一个时间点，是动画离开之后，离开的终止状态，此时，元素动画已经结束了*/
+
+        .v-enter,
+        .v-leave-to{
+            opacity:0;
+            transform:translateX(150px)
+        }
+    /*    v-enter-active 入场动画的时间段*/
+    /*    v-leave-active 离场动画的时间段*/
+        .v-enter-active,
+        .v-leave-active{
+            transition:all 1s ease;
+        }
+
+        .my-enter,
+        .my-leave-to{
+            opacity:0;
+            transform:translateY(150px)
+        }
+        .my-enter-active,
+        .my-leave-active{
+            transition:all 1s ease;
+        }
+        .ball{
+            width:15px;
+            height:15px;
+            border-radius:50%;
+            background-color:red;
+        }
+    </style>
+</head>
+
+<body>
+ <div id="app">
+<!--     <input type="button" value="toggle" @click="flag =!flag">
+     &lt;!&ndash;     使用transition元素，把需要被动画控制的元素，包裹起来&ndash;&gt;
+
+     <transition>
+        <h3 v-if="flag">人生的意义在于是否有你追逐的东西</h3>
+     </transition>
+     <hr>
+     <input type="button" value="toggle3" @click="flag =!flag">
+
+     &lt;!&ndash; 采用外部第三方库类
+     使用duration=“毫秒值” 来统一设置入场和离场时候的动画时长
+     使用 duration="{enter:200,leave:400}" 来分别设置入场的时长和离场的时长&ndash;&gt;
+
+&lt;!&ndash;     <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut" :duration="1000">
+        <h3 v-if="flag">人生的意义在于是否有你追逐的东西</h3>
+     </transition>&ndash;&gt;
+     <transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="{enter:1000,leave:1000}">
+        <h3 v-if="flag" class="animated">人生的意义在于是否有你追逐的东西</h3>
+     </transition>
+
+     <hr>
+
+     <input type="button" value="toggle2" @click="flag2 =!flag2">
+     &lt;!&ndash;     使用transition元素，把需要被动画控制的元素，包裹起来&ndash;&gt;
+
+     <transition name="my">
+        <h6 v-if="flag2">人生的意义在于是否有你追逐的东西</h6>
+     </transition>
+     <hr>-->
+
+ <!-- 小球的动画-->
+     <input type="button" value="快到碗里来" @click="flag4 = !flag4">
+     <transition
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @after-enter="afterEnter">
+        <div class="ball" v-show="flag4"></div>
+     </transition>
+
+ </div>
+ <script>
+
+     var vm = new Vue({
+         el:'#app',
+         data:{
+             flag:false,
+             flag2:false,
+             flag4:false
+
+         },
+         methods:{
+             // 注意:动画钩子函数的第一个参数；el,表示要执行动画的那个DOM元素，是哪个原生的JS DOM 对象
+             // 可以认为，el 是通过 document.getElementById('') 方式获取的原生JS DOM 对象
+             beforeEnter(el){
+               // 表示动画入场之前，此时，动画尚未开始，可以在beforeEnter中设置元素开始动画前的其实样式
+               // 设置小球开始动画之前的起始位置
+               el.style.transform = "translate(0,0)"
+             },
+             enter(el,done){
+                 // 这句话没有实际的作用，但是，如果不写，出不来动画效果
+                 // 可以认为 el.offsetWidth 会强制动画刷新
+                 el.offsetWidth
+                 // enter 表示动画开始之后的样式，这里，可以设置小球完成动画之后的结束状态
+                 el.style.transform = "translate(150px,450px)"
+                 el.style.transition = 'all 1s ease'
+                 // 这里的done 其实就是afterEnter这个函数，也就是说done是afterEnter函数的引用
+                 done()
+             },
+             afterEnter(el){
+                 // 动画完成之后，会调用afterEnter
+                 console.log("动画完成")
+                 this.flag4 = !this.flag4
+             },
+         }
+     });
+
+
+ </script>
+</body>
+</html>

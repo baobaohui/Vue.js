@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-for中的key</title>
+    <script src="../vue.js"></script>
+
+
+</head>
+<body>
+<div id="app">
+
+    <div>
+        <label >
+            id:
+            <input type="text" v-model="id">
+        </label>
+        <label for="">
+            Name:
+            <input type="text" v-model="name">
+        </label>
+
+        <input type="button" value="添加" @click="add">
+    </div>
+
+<!--    v-for 循环的时候，key 属性只能使用number获取string-->
+<!--    key在使用的时候，必须使用v-bind属性绑定的形式，指定key的值-->
+    <div v-for="item in list" :key="item.id">
+        <input type="checkbox">{{item.id}}--{{item.name}}
+
+    </div>
+</div>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            id: '',
+            name: '',
+            list: [
+                {id: 1, name: 'baobaohui1'},
+                {id: 2, name: 'baobaohui2'},
+                {id: 3, name: 'baobaohui3'},
+                {id: 4, name: 'baobaohui4'}
+            ]
+        },
+        methods: {
+            add() {
+                this.list.push({id: this.id, name: this.name})
+            },
+
+        }
+    });
+
+</script>
+</body>
+</html>

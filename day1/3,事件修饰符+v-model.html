@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+    <style>
+        .inner{
+            height: 100px;
+            width: 200px;
+            background-color: #4DADF7;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+<!--    使用 .stop 阻止事件冒泡-->
+    <div class="inner" @click="div1Handler">
+        <input type="button" value="戳他" @click.stop="btnHandler">
+        
+    </div>
+    <br>
+<!--    使用 .prevent 阻止默认行为-->
+    <a href="http://www.baidu.com" @click.prevent="linkClick">有问题去百度</a>
+    <br>
+<!--    使用 .capture 实现捕获触发事件的机制-->
+    <div class="inner" @click.capture="div1Handler">
+        <input type="button" value="戳他" @click="btnHandler">
+    </div>
+    <br>
+
+<!--    使用 .self实现只有点击当前元素的时候，才会触发事件处理函数，会阻止自己身上的冒泡事件-->
+    <div class="inner" @click.sefl="div1Handler">
+        <input type="button" value="戳他" @click="btnHandler">
+    </div>
+    <br>
+
+    <!--    使用 .once 只触发一次事件-->
+    <a href="http://www.baidu.com" @click.once="linkClick">有问题去百度</a>
+    <br><br>
+
+
+    <p>{{msg}}</p>
+
+<!--    v-bind  数据的单向绑定-->
+    <input type="text" v-bind:value="msg" style="width: 60%;">
+    <!--    v-model 实现表单元素的数据双向绑定-->
+    <input type="text" v-model:value="msg" style="width: 60%;">
+    <input type="text" v-model="msg" style="width: 60%;">
+
+</div>
+
+<script>
+    var vm = new Vue({
+       el:'#app',
+       data:{
+           msg:'落霞与孤鹜齐飞，秋水共长天一色'
+       },
+       methods:{
+         div1Handler(){
+             console.log('触发div事件')
+         },
+         btnHandler(){
+             console.log('触发按钮事件')
+         }
+
+       }
+    });
+
+</script>
+</body>
+</html>

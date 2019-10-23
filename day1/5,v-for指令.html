@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-for指令</title>
+    <script src="../vue.js"></script>
+
+</head>
+<body>
+<div id="app">
+<!--    v-for循环普通数组-->
+    <p v-for="(item,i) in list1">索引值：{{i}} -- 每一项：{{item}}</p>
+
+<!--    v-for循环对象数组-->
+    <p v-for="user in list2">id:{{user.id}} -- 名字:{{user.name}}</p>
+    <p v-for="(user,i) in list2">id:{{user.id}} -- 名字:{{user.name}} -- 索引：{{i}}</p>
+
+<!--    v-for循环对象-->
+    <p v-for="(val,key,i) in list3">值是:{{val}} -- 键是:{{key}} -- 索引:{{i}}</p>
+
+<!--    从1 开始迭代数字-->
+    <p v-for="count in 10">{{count}}</p>
+
+</div>
+
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+          list1:[1,2,3,4,5,6],
+          list2:[
+              {id:1,name:'baobaohui1'},
+              {id:2,name:'baobaohui2'},
+              {id:3,name:'baobaohui3'},
+              {id:4,name:'baobaohui4'}
+          ],
+          list3:{
+              id:1,
+              name:'boabaohui',
+              gender:'男'
+          }
+        },
+        methods:{
+
+        }
+    });
+
+</script>
+</body>
+</html>

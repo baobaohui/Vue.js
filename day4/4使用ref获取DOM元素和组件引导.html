@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用ref获取DOM元素和组件引导</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="button" value="获取元素" @click="getElement">
+    <h3 id="myh3" ref="myh3">天气很好，我也很好</h3>
+
+    <hr>
+    <login ref="mylogin"></login>
+</div>
+
+<script>
+    var login={
+        template:'<h3>登录组件</h3>',
+        data(){
+            return {
+                msg:'son msg'
+            }
+        },
+        methods:{
+           show(){
+                console.log('组件引用')
+           }
+        }
+    };
+
+    var vm = new Vue({
+        el:'#app',
+        data:{},
+        methods:{
+            getElement(){
+                // console.log(document.getElementById('myh3').innerText)
+
+                //ref reference  值类型，引用类型 referenceError
+                console.log(this.$refs.myh3.innerText);
+                console.log(this.$refs.mylogin.msg);
+                this.$refs.mylogin.show()
+            }
+        },
+        components:{
+            login
+        }
+
+
+
+    })
+
+
+</script>
+
+</body>
+</html>

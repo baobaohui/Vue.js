@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>6路由-使用命名视图实现经典布局</title>
+    <script src="../vue.js"></script>
+    <script src="../vue-router.js"></script>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+        }
+        h3{
+            margin: 0;
+            padding: 0;
+            font-size: 24px;
+        }
+        .header{
+            background-color: orange;
+            height: 80px;
+        }
+        .container{
+            display: flex;
+            height: 600px;
+        }
+        .left{
+            background-color: lightgreen;
+            flex: 2;
+        }
+        .main{
+            background-color: lightpink;
+            flex: 8;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <router-view></router-view>
+    <div class="container">
+        <router-view name="left"></router-view>
+        <router-view name="main"></router-view>
+    </div>
+
+
+</div>
+
+<script>
+    //组件模板对象
+    var header ={
+        template:'<h3 class="header">Header头部区域</h3>'
+    };
+    var leftBox ={
+        template:'<h3 class="left">Left侧边栏区域</h3>',
+    };
+    var mainBox ={
+        template:'<h3 class="main">mainBox主体区域</h3>',
+    };
+
+    var routerObj = new VueRouter({
+
+        routes:[
+            {
+                path:'/',components:{
+                    default:header,
+                    left:leftBox,
+                    main:mainBox
+                }
+            }
+
+        ]
+
+    });
+
+    var vm =new Vue({
+        el:'#app',
+        data:{},
+        methods:{},
+        router:routerObj    //将路由规则对象，注册到vm实例上，用来监听URL地址的变化，然后展示对应的组件
+    });
+
+
+</script>
+</body>
+</html>
