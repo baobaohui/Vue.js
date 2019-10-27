@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>名称案例</title>
+    <script src="../vue.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <h3>第一种方法：使用@keyup="getFullname"完成名称案例</h3>
+    <input @keyup="getFullname" type="text" v-model="firstname">+
+    <input @keyup="getFullname" type="text" v-model="lastname">=
+    <input @keyup="getFullname" type="text" v-model="fullname">
+
+    <hr>
+    <h3>第二种方法：使用 watch 监视数据变化 完成名称案例</h3>
+    <input type="text" v-model="firstname1">+
+    <input type="text" v-model="lastname1">=
+    <input type="text" v-model="fullname1">
+    <hr>
+    <h3>第三种方法：使用 computed 计算属性完成名称案例</h3>
+    <input type="text" v-model="firstname2">+
+    <input type="text" v-model="middlename2">+
+    <input type="text" v-model="lastname2">=
+    <input type="text" v-model="fullname2">
+
+    <p>{{fullname2}}</p>
+    <p>{{fullname2}}</p>
+    <p>{{fullname2}}</p>
+
+
+</div>
+
+<script>
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            firstname: '',
+            lastname: '',
+            fullname: '',
+
+            firstname1: '',
+            lastname1: '',
+            fullname1: '',
+
+            firstname2: '',
+            middlename2: '',
+            lastname2: ''
+        },
+        methods: {
+            getFullname() {
+                this.fullname = this.firstname + '-' + this.lastname
+            }
+        },
+        //使用这个属性，可以监视data中指定数据的变化，然后触发这个watch中对应的function处理函数
+        watch: {
+            'firstname1': function (newVal, oldVal) {
+                //this.fullname = this.firstname+'-'+this.lastname
+                this.fullname1 = newVal + '-' + this.lastname1
+            },
+            'lastname1': function (newVal) {
+                this.fullname1 = this.firstname1 + '-' + newVal
+            }
+        },
+        //计算属性，可直接按照名字调用
+        //1，只要计算属性，这个function内部所用到的任何data中的数据发送了变化，就会立即重新计算这个属性的值
+        //2，计算属性的求值结果，会被缓存起来，方便下次直接使用，如果计算属性方法中数据没有发生变化
+        //      则不会对计算属性求值
+        computed:{
+            'fullname2':function () {
+                console.log('ok');
+                return this.firstname2+'-'+this.middlename2+'-'+this.lastname2
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

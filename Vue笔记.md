@@ -214,3 +214,154 @@ vue生命周期函数
     前端路由
     后端路由
 ## day5
+
+名称案例
+    
+    第一种方法：使用@keyup="getFullname"完成名称案例
+    第二种方法：使用 watch 监视数据变化 完成名称案例
+    第三种方法：使用 computed 计算属性完成名称案例
+    
+    watch，computed，methods 的对比
+    
+    computed：属性的结果会被缓存，除非依赖的响应式属性变化才会重新计算，主要当作属性来使用
+    methods：方法，表示一个具体的操作，主要书写业务逻辑
+    watch：一个对象，键是需要观察的表达式，值是对应回调函数主要用来监听某些特定数据
+          的变化，从而进行某些具体的业务逻辑操作，可以看作是computed和methods的结合体
+
+nrm 的使用和安装
+    
+    nrm 就是提供了一些常用的NPM包镜像地址，能够让我们快速的切换安装包时候的而服务器地址
+    镜像
+    
+    npm i nrm -g  全局安装nrm包
+    nrm ls  查看当前所有可用的镜像源地址以及当前所使用的镜像地址
+    nrm use cnpm 切换不同的镜像源地址
+webpack的概念
+    
+    网页中引用的一些静态资源
+        js
+            .js .jex .coffee .ts(TypeScript 类c#语言)
+        css
+            .css .less .sass .scss
+        Image
+            .jpg .png .gif .bmp .svg
+        字体文件(Fonts) 
+            .svg .ttf .eot .woff .woff2
+        模板文件
+            .ejs .jade .vue(这是在webpack中定义组件的方式)
+    
+    网页中引入过多静态资源后有什么问题
+        1，网页加载速度慢，因为会发起很多二次请求
+        2，要处理错综复杂的依赖关系
+   
+    如何解决上述问题
+        1，合并、压缩、精灵图(多个图片合成一张图片)、图片的Base64编码
+        2，可以使用requireJS，webpack解决各个包之间的复杂依赖关系
+    
+    如何完美实现上述两种解决方案
+        1，使用Gulp，是基于task任务的，处理的较小
+        2，使用webpack，基于整个项目进行构建
+    
+    什么是webpack
+        webpack是前端的一个项目构建工具，它是基于Node.js开发出来的一个前端工具
+        
+    安装webpack   
+        npm i webpack -g 全局安装 ==> npm install webpack -g
+        webpack -v  查看安装的webpack版本
+    
+    webpack可以做什么
+        1，webpack能够处理JS文件之间的相互依赖关系
+        2，webpack能够处理JS的兼容问题，把高级的浏览器不识别的语法转成低级的浏览器能识别的语法
+        
+        
+    webpack是怎么用的
+    
+        npm install webpack -g
+        webpack --mode development      //指定是开发(production)和是生产
+        webpack .\src\main.js -o .\dist\bundle.js   //使用webpack处理js文件
+        (webpack 要打包的文件的路径 打包好的文件的路径)
+
+    webpack 构建的简介形式
+        创建 webpack.config.js 文件并配置
+        然后 terminal中直接输入 webpack 即可
+    
+    webpack-dev-server 工具 实现自动打包编译的功能
+        1，运行npm i webpack-dev-server -D 把这个工具安装到项目本地开发依赖
+        2，安装完毕后，这个工具的用法和webpack命令的用法，完全一致
+        3，由于，我们是在项目中本地安装的webpack-dev-server(不是全局 -g 命令安装)，
+            无法当作脚本命令在 终端中直接运行
+        4，注意：webpack-dev-server 这个工具，如果想要正常运行，要求，在本地项目中，必须安装webpack
+            cnpm i webpack -D
+            cnpm i webpack-dev-server -D
+            
+            配置 package.json
+                  "scripts": {
+                        "test": "echo \"Error: no test specified\" && exit 1",
+                        "dev": "webpack-dev-server",
+                        "build": "webpack --mode production"
+                      }
+                      
+            npm run dev
+        5，webpack-dev-server 打包生成的bundle.js文件，并没有存放到实际的物理磁盘上，而是，直接托管到了电脑的内存中，
+            所以，我们在项目根目录中根本就找不到这个打保函的bundle.js
+        6，webpack-dev-server 把打包好的文件以一种虚拟的形式，托管到了咱们项目的根目录中
+            ，虽然看不到，但是等同于和dist src node-modules平级，有一个看不见的文件，叫做bundle.js
+    webpack-dev-server 的常用命令参数
+       
+       第一种方法：package.json中 
+        "dev": "webpack-dev-server --open --port 8080 --contentBase src --hot",
+        第二种方法：webpack.config.js
+                
+                //启用热更新的第二步
+                // const webpack = require('webpack');
+                
+                devServer:{ // 配置dev-server命令参数的第二种形式，相对来说，麻烦一些
+                    //open --port 3000 --contentBase src --hot
+                    open:true,//自动打开浏览器
+                    port:3000,//设置启动时候的运行端口
+                    contentBase:'src',//指定托管的根目录
+                    hot:true //启用热更新的第一步
+                },
+                
+    使用html-webpack-plugin插件配置启动页面(将html页面置于内存中，而不是之前的物理层)
+        作用如下：
+        1，在内存中生成一个页面
+        2，自动把打包好的bundle.js 插入到生成的内存页面DOM中去
+        启用步骤如下：
+        1，运行cnpm i html-webpack-plugin 插件配置启动页面
+        2，修改webpack.config.js 配置文件如下
+        
+            const webpack = require('webpack');
+            //导入在内存中生成 HTML 页面的插件
+            //只要是插件，都一定要放到 plugins 节点中去
+            const htmlWebpackPlugin = require('html-webpack-plugin');
+            // 配置插件的结点
+            plugins:[
+                new webpack.HotModuleReplacementPlugin(),//new 一个热攻心的模块对象，这是启用热更新的第三部
+        
+                //创建一个在内存中生成HTML页面的插件
+                    new htmlWebpackPlugin({
+                        template: path.join(__dirname,'./src/index.html'),//指定模板页面，将来会根据指定的页面路径，生成内存中的页面
+                        filename:'index.html' //指定生成的页面的名称
+                    })
+                ]
+            };
+        3，npm run dev
+        
+    loader配置，处理css文件
+        
+         1，   //这个节点，用于配置所用第三方模块加载器
+            module: {
+                rules: [//所有第三方模块的匹配规则
+                    {test:/\.css$/, use: ['style-loader','css-loader']},//配置处理 .css文件的第三方loader规则
+        
+                ]
+            }
+         2，cnpm i style-loader css-loader -D
+         
+         3，npm run dev 
+    loader配置，处理scss文件
+        1，{test:/\.scss$/,use:['style-loader','css-loader','sass-loader']},
+            //配置处理 .scss 文件的第三方loader规则
+        2，cnpm i style-loader css-loader sass-loader
+        3，npm run dev  
