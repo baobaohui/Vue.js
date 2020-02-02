@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>watch-监视路由地址的改变</title>
+    <script src="../vue.js"></script>
+    <script src="../vue-router.js"></script>
+    <style>
+        .router-link-active,.myactive{
+            color: yellow;
+            /*font-weight: 80;*/
+            /*font-style: italic;*/
+            /*font-size: 32px;*/
+            text-decoration: underline;
+            background-color: antiquewhite;
+
+        }
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform:translateX(140px);
+        }
+
+        .v-enter-active,
+        .v-leave-active{
+            transition:all 0.5s ease;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+<!--    <a href="#/login">登录</a>-->
+<!--    <a href="#/register">注册</a>-->
+
+    <router-link to="/login?id=123&name=baobao" tag="span" style="text-decoration: none">登录</router-link>
+    <router-link to="/register/123/baobaohui" style="text-decoration: none">注册</router-link>
+
+    <transition mode="out-in">
+        <router-view></router-view>
+    </transition>
+</div>
+
+<script>
+    //组件模板对象
+    var login ={
+        template:'<h3>登录组件--{{$route.query.id}} -- {{$route.query.name}}</h3>',
+        data(){
+            return {
+                msg:'123'
+            }
+        },
+        created(){
+            console.log(this.$route.query.id)
+        }
+
+    };
+    var register ={
+        template:'<h3>注册组件--{{$route.params.id}}--{{$route.params.name}}</h3>',
+        data(){
+            return {
+                msg:'123'
+            }
+        },
+        created(){
+            console.log(this.$route.params.id)
+        }
+    };
+
+
+    var routerObj = new VueRouter({
+
+        routes:[
+            {path:'/',redirect:''},// 设置默认路由，这里的redirect 和 Node中的redirect完全不同
+            {path:'/login',component:login},
+            {path:'/register',component:register}
+        ],
+        linkActiveClass:'myactive'
+    });
+
+    var vm =new Vue({
+        el:'#app',
+        data:{},
+        methods:{},
+        router:routerObj,    //将路由规则对象，注册到vm实例上，用来监听URL地址的变化，然后展示对应的组件
+        watch:{
+            '$route.path':function (newVal,oldVal) {
+                if(newVal === '/login'){
+                    console.log('欢迎进入登录页面')
+                }else if(newVal === '/register'){
+                    console.log('欢迎进入注册页面')
+                }
+            }
+        }
+    });
+
+
+</script>
+</body>
+</html>

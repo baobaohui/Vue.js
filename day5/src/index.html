@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>webpack的基本使用</title>
+<!--    注意：最好不要在这里引任何包和css文件-->
+<!--    因为main中的代码涉及到了 ES6的新语法，浏览器不支持-->
+<!--    <script src="main.js"></script>-->
+<!--通过webpack这么一个前端构建工具，把main.js做了一下处理，生成一个bundle.js 的文件-->
+<!--    <script src="../dist/bundle.js"></script>-->
+
+<!--    上面引入的bundle.js 文件和 下面引用的bundle.js 文件不是同一个文件-->
+<!--    直接引入 根目录中的bundle.js-->
+<!--    当使用html-webpack-plugin 之后，我们不需在手动处理bundle.js 的引用路径了
+因为这个插件会自动创建一个合适script，并且引用正确的路径-->
+<!--    <script src="/bundle.js"></script>-->
+
+<!--css 或发起第二次请求，可以一起放到 mian.jswebpack中去-->
+<!--    <link rel="stylesheet" href="./css/index.css">-->
+</head>
+<body>
+<ul>
+    <li>这是第1个li</li>
+    <li>这是第2个li</li>
+    <li>这是第3个li</li>
+    <li>这是第4个li</li>
+    <li>这是第5个li</li>
+    <li>这是第6个li</li>
+    <li>这是第7个li</li>
+    <li>这是第8个li</li>
+    <li>这是第9个li</li>
+    <li>这是第10个li</li>
+
+</ul>
+</body>
+</html>

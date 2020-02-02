@@ -1,0 +1,11 @@
+html,body{
+  .box{
+    width:400px;
+    height:400px;
+    background-color:red;
+    //默认情况下，webpack无法处理css文件中的url地址，不管是图片还是字体库
+    //只要是url地址，都处理不了，所以需要加载模块 url-loader file-loader
+    background:url('../images/cutcamera.png');
+    background-size:cover;
+  }
+}
