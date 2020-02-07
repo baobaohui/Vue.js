@@ -722,7 +722,7 @@ webpack的概念
             重新获取最新一页的数据
         3，为了防止新数据覆盖老数据的情况，我们在点击加载更多的时候，每当获取新数据，
             应该让老数据调用数组的concat方法，拼接上新数组
-##day9   
+##day 9   
     
     项目-完成发表评论的功能
         1，把文本框进做双向数据绑定
@@ -800,3 +800,106 @@ webpack的概念
             +如何查看自己电脑所处wifi的ip呢，在cmd终端中运行'ipconfig'
             +手机屏幕显示控制软件 Total Control
             +360免费wifi
+
+## day10
+    
+    项目-加载商品列表中的数据，并实现加载更多
+    项目-vue-router中编程式导航的介绍
+    
+        传递对象
+        this.$router.push({path:"/home/goodsinfo/"+id})
+        传递命名的路由    
+        this.$router.push({name:"goodsinfo",params:{id} })
+    
+    项目-绘制商品详情页面的卡片视图
+    项目-获取商品详情的轮播图数据并分析如何抽离轮播组件
+        item.img = item.src
+        
+        
+    项目-解决轮播图宽度问题
+        同一组件的不同表现形式需求，
+        利用:class根据标志位的true/false，完成不同形式的显示
+    
+    项目-绘制商品购买区域的样式
+        购买区域组件化
+        mui(".mui-number").numbox();  //数字输入框
+    
+    项目-渲染商品详情页面的数据
+    项目-使用编程式导航实现图文介绍和商品评论跳转
+    项目-实现商品详情中的图文介绍和评论页面渲染
+    项目-实现基本的加入购物车小球动画
+        设置小球属性
+        给小球加上动画
+        
+    项目-完美实现小球动画适配不同滚动条位置和分辨率    
+        1，分析导致动画的不准确的本质原因：我们把小球最终移动到的位置，已经局限在了
+            某一分辨率下的滚动条未滚动的情况下
+        2，只要分辨率和测试的时候不同或者滚动条有一定的滚动距离之后，问题就出现了
+        3，结论：不能把位置的横纵坐标直接写死了，而是应该根据不同情况，动态计算这个坐标值
+        4，解决方案：先得到徽标的横纵坐标，再得到小球的横纵坐标，然后让y值求差，x值
+            也求差，得到的结果就是横纵坐标要位移的距离
+        5，如何获取徽标和小球的位置？ domeObject.getBoundingClientRect()
+    
+    项目-每当numbox的值改变立即把购买数量传递给父组件
+      父组件向子组件传递方法，子调用这个方法，同时把数据当作参数传递给这个方法
+      
+    项目-使用js的api设置numbox的最大值
+        使用watch进行监听
+    项目-为什么要使用 vuex
+        vuex：专门为vue.js应用程序开发的状态管理模式
+        vuex 是vue配套的公共数据管理工具，他可以共享一些数据保存到vuex中，
+            方便整个程序中的任何组件直接获取或修改我们的公共数据
+            
+    项目-vue的基本概念
+        
+        第一种：使用script标签使用
+            <script src="/path/to/vuex.js"></script>
+            
+        第二种：模块化使用
+           
+            npm install vuex --save    //1，安装
+                
+            在一个模块化的打包系统中，必须显式地通过Vue.use()来安装Vuex
+                import Vue from 'vue'
+                import Vuex from 'vuex'     // 2，导入
+                
+                Vue.use(Vuex)       //3，注册vuex到vue中
+                
+                //4，new一个实例，得到数据仓储对象
+                var store = new Vuex.Store({ 
+                    state:{
+                        //等同于组件中data，存储数据
+                        count：0
+                    },
+                    mutations:{},
+                    getters:{}
+                })
+                
+                //5，挂载到实例上
+                import App from './App.vue'
+                const vm = new Vue({
+                    el:'#app',
+                    render:c=>c(App),
+                    store   //将vuex创建的store挂载到vm实例上
+                })
+    项目-将store中的数据显示到组件中
+            this.$store.state.***
+            
+    项目-使用mutations来操作state中的数据
+        组件调用mutations中的方法：this.$store.commit('方法名')
+        这种调用方式和this.$emit('父组件中的方法名')
+    
+    项目-在提交mutations方法的时候提交参数
+        最多支持两个参数
+    
+    项目-使用getters包装数据并总结vuex的使用方式   
+        getters:{
+            optCount:function(state){
+                return '当前最新的count值是：'+state.count
+            }
+        } 
+        getters和computed比较像，只要state中的数据发生了变化，
+        如果getters正好也引用了这个数据，那么就会立即触发getters的重新求值
+        
+        如果store中state上的数据，在对外提供的时候，需要做一层包装，推荐使用getters
+        
